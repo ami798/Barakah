@@ -5,6 +5,8 @@ import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Letter } from '@/lib/types';
+import { ParticleBackground } from '@/components/ParticleBackground';
+import { GlowCard } from '@/components/GlowCard';
 import {
   getLetters,
   saveLetter,
@@ -55,9 +57,11 @@ export default function LetterPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background via-background to-background/80">
+    <div className="min-h-screen bg-gradient-to-b from-background via-background to-background/80 relative overflow-hidden">
+      <ParticleBackground />
       {/* Header */}
       <motion.header
+        className="relative z-10"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         className="px-6 py-8 text-center"
@@ -74,7 +78,7 @@ export default function LetterPage() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.2 }}
-        className="px-6 py-8 max-w-2xl mx-auto space-y-8"
+        className="px-6 py-8 max-w-2xl mx-auto space-y-8 relative z-10"
       >
         {/* Unlock countdown */}
         <motion.div

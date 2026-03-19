@@ -5,6 +5,8 @@ import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import { ParticleBackground } from '@/components/ParticleBackground';
+import { GlowCard } from '@/components/GlowCard';
 import { EchoWhisper } from '@/lib/types';
 import { getEchoWhispers, saveEchoWhisper } from '@/lib/storage';
 import { generateId, formatDate } from '@/lib/helpers';
@@ -132,9 +134,11 @@ export default function EchoesPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background via-background to-background/80">
+    <div className="min-h-screen bg-gradient-to-b from-background via-background to-background/80 relative overflow-hidden">
+      <ParticleBackground />
       {/* Header */}
       <motion.header
+        className="relative z-10"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         className="px-6 py-8 text-center"
@@ -151,7 +155,7 @@ export default function EchoesPage() {
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-        className="px-6 py-8 max-w-3xl mx-auto space-y-6"
+        className="px-6 py-8 max-w-3xl mx-auto space-y-6 relative z-10"
       >
         {/* Add whisper button */}
         {!isAdding ? (

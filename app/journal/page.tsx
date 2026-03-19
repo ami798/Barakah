@@ -6,6 +6,8 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
 import { JournalEntry as JournalEntryComponent } from '@/components/JournalEntry';
+import { ParticleBackground } from '@/components/ParticleBackground';
+import { GlowCard } from '@/components/GlowCard';
 import { JournalEntry as JournalEntryType } from '@/lib/types';
 import { getJournalEntries, saveJournalEntry } from '@/lib/storage';
 import { generateId, calculateStreak } from '@/lib/helpers';
@@ -78,9 +80,11 @@ export default function JournalPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background via-background to-background/80">
+    <div className="min-h-screen bg-gradient-to-b from-background via-background to-background/80 relative overflow-hidden">
+      <ParticleBackground />
       {/* Header */}
       <motion.header
+        className="relative z-10"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         className="px-6 py-8 text-center"
@@ -107,7 +111,7 @@ export default function JournalPage() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.2 }}
-        className="px-6 py-8 max-w-2xl mx-auto space-y-8"
+        className="px-6 py-8 max-w-2xl mx-auto space-y-8 relative z-10"
       >
         {/* Add entry section */}
         {isAdding ? (

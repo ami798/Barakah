@@ -1,9 +1,13 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { Lantern as LanternComponent } from '@/components/Lantern';
 import { IntentionModal } from '@/components/IntentionModal';
+import { ParticleBackground } from '@/components/ParticleBackground';
+import { GlowCard } from '@/components/GlowCard';
+import { useAuth } from '@/components/AuthProvider';
 import { Lantern, Notification } from '@/lib/types';
 import {
   getLanterns,
@@ -14,16 +18,24 @@ import {
 import { generateId, getRandomEncouragement } from '@/lib/helpers';
 
 export default function Home() {
+  const { user, loading: authLoading } = useAuth();
+  const router = useRouter();
   const [lanterns, setLanterns] = useState<Lantern[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [notification, setNotification] = useState<Notification | null>(null);
 
-  // Load lanterns on mount
+  // Redirect to login if not authenticated
   useEffect(() => {
-    setLanterns(getLanterns());
-    setIsLoading(false);
-  }, []);
+    if (!authLoading) {
+      if (!user) {
+        router.push('/auth/login');
+      } else {
+        setLanterns(getLanterns());
+        setIsLoading(false);
+      }
+    }
+  }, [user, authLoading, router]);
 
   const handleAddLantern = (intention: string) => {
     const newLantern: Lantern = {
@@ -110,10 +122,26 @@ export default function Home() {
     );
   }
 
+  if (authLoading || isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <motion.div
+          animate={{ rotate: 360 }}
+          transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
+          className="text-4xl"
+        >
+          🌙
+        </motion.div>
+      </div>
+    );
+  }
+
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background via-background to-background/80">
+    <div className="min-h-screen bg-gradient-to-b from-background via-background to-background/80 relative overflow-hidden">
+      <ParticleBackground />
       {/* Header */}
       <motion.header
+        className="relative z-10"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         className="px-6 py-8 text-center"
@@ -158,7 +186,7 @@ export default function Home() {
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-        className="px-4 py-8"
+        className="px-4 py-8 relative z-10"
       >
         {lanterns.length === 0 ? (
           <motion.div
@@ -238,7 +266,7 @@ export default function Home() {
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
         onClick={() => setIsModalOpen(true)}
-        className="fixed bottom-28 right-6 w-14 h-14 rounded-full bg-gradient-to-br from-primary to-accent text-white font-bold text-lg shadow-lg hover:shadow-xl transition-shadow z-30"
+        className="fixed bottom-28 right-6 w-14 h-14 rounded-full bg-gradient-to-br from-primary to-accent text-white font-bold text-lg shadow-lg hover:shadow-xl transition-shadow z-40"
       >
         ✨
       </motion.button>
@@ -257,7 +285,7 @@ export default function Home() {
           initial={{ y: 100, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 100, opacity: 0 }}
-          className="fixed bottom-32 left-1/2 -translate-x-1/2 px-6 py-3 rounded-lg bg-card border border-border shadow-lg"
+          className="fixed bottom-32 left-1/2 -translate-x-1/2 px-6 py-3 rounded-lg bg-card border border-border shadow-lg z-40"
         >
           <p className="text-sm text-foreground">{notification.message}</p>
         </motion.div>
