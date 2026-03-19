@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Barakah Lanterns
 
 A spiritual wellness app for releasing intentions, journaling emotions, and connecting with community wisdom.
@@ -219,3 +220,6 @@ For issues, questions, or suggestions, please open an issue or contact the commu
 ---
 
 Made with intention and care. ✨🌙
+=======
+# Barakah
+>>>>>>> 2177a74e392f70411ad778da8d6d0cf95be4158d
