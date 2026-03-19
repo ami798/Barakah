@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import { BottomNavigation } from '@/components/BottomNavigation'
 import { PWAProvider } from '@/components/PWAProvider'
+import { AuthProvider } from '@/components/AuthProvider'
 import './globals.css'
 
 const _geist = Geist({ subsets: ["latin"] });
@@ -51,11 +52,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="font-sans antialiased bg-background text-foreground">
-        <PWAProvider />
-        <main className="pb-24">
-          {children}
-        </main>
-        <BottomNavigation />
+        <AuthProvider>
+          <PWAProvider />
+          <main className="pb-24">
+            {children}
+          </main>
+          <BottomNavigation />
+        </AuthProvider>
         <Analytics />
       </body>
     </html>

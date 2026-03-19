@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { CrescentMeter } from '@/components/CrescentMeter';
+import { ParticleBackground } from '@/components/ParticleBackground';
+import { GlowCard } from '@/components/GlowCard';
 import { calculateDashboardStats, exportAllData, getLanterns, getJournalEntries } from '@/lib/storage';
 import { formatDate } from '@/lib/helpers';
 
@@ -63,9 +65,11 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background via-background to-background/80">
+    <div className="min-h-screen bg-gradient-to-b from-background via-background to-background/80 relative overflow-hidden">
+      <ParticleBackground />
       {/* Header */}
       <motion.header
+        className="relative z-10"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         className="px-6 py-8 text-center"
